@@ -1,0 +1,56 @@
+spring:
+  application:
+    name: transaction-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/transactdb
+    username: postgres
+    password: 1234
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+server:
+  port: 9999
+
+#  shardingsphere:
+#    datasource:
+#      names: ds_0,ds_1 # Список датасорсов
+#      ds_0: # Настройки первого датасорса
+#        type: com.zaxxer.hikari.HikariDataSource //???
+#        driver-class-name: org.postgresql.Driver
+#        jdbc-url: jdbc:postgresql://localhost:5432/db0
+#        username: root
+#        password: root
+#      ds_1: # Настройки второго датасорса
+#        type: com.zaxxer.hikari.HikariDataSource
+#        driver-class-name: org.postgresql.Driver
+#        jdbc-url: jdbc:postgresql://localhost:5432/db1
+#        username: root
+#        password: root
+#
+#    rules:
+#      sharding:
+#        tables:
+#          wallets:
+#            actual-data-nodes: ds_${0..1}.wallets_${0..1}
+#            table-strategy:
+#              standard:
+#                sharding-column: user_uid
+#                sharding-algorithm-name: user-sharding
+#          transactions:
+#            actual-data-nodes: ds_${0..1}.transactions_${0..1}
+#            table-strategy:
+#              standard:
+#                sharding-column: user_uid
+#                sharding-algorithm-name: user-sharding
+#        sharding-algorithms:
+#          user-sharding:
+#            type: MOD
+#            props:
+#              sharding-count: 2
+#
+#    props:
+
+#      sql-show: true # Показывать SQL-запросы в логах
