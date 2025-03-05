@@ -1,4 +1,4 @@
-package com.example.transactionservice.model;
+package com.example.transactionservice.model.enums;
 
 public enum CurrencyCode {
 

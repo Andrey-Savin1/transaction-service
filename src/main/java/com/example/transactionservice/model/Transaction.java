@@ -1,5 +1,7 @@
 package com.example.transactionservice.model;
 
+import com.example.transactionservice.model.enums.FilterType;
+import com.example.transactionservice.model.enums.TransactionState;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +10,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
@@ -19,14 +21,14 @@ public class Transaction {
     @Id
     @ColumnDefault("uuid_generate_v4()")
     @Column(name = "uid", nullable = false)
-    private UUID id;
+    private UUID id = UUID.randomUUID();
 
     @ColumnDefault("now()")
     @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(name = "modified_at")
-    private Instant modifiedAt;
+    private LocalDateTime modifiedAt;
 
     @Column(name = "user_uid", nullable = false)
     private UUID userUid;
@@ -47,7 +49,8 @@ public class Transaction {
     private FilterType type;
 
     @Column(name = "state", nullable = false, length = 32)
-    private String state;
+    @Enumerated(EnumType.STRING)
+    private TransactionState state;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)

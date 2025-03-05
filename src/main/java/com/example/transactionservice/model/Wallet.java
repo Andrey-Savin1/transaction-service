@@ -1,5 +1,6 @@
 package com.example.transactionservice.model;
 
+import com.example.transactionservice.model.enums.WalletStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,10 +19,10 @@ public class Wallet {
     @Id
     @ColumnDefault("uuid_generate_v4()")
     @Column(name = "uid", nullable = false)
-    private UUID id;
+    private UUID id = UUID.randomUUID();
 
     @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
@@ -34,7 +35,7 @@ public class Wallet {
     private WalletType walletType;
 
     @Column(name = "user_uid", nullable = false)
-    private UUID userUid;
+    private UUID userUid = UUID.randomUUID();
 
     @Column(name = "status", nullable = false, length = 30)
     @Enumerated(EnumType.STRING)

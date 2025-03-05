@@ -1,8 +1,8 @@
 package com.example.transactionservice.dto;
 
 
-import com.example.transactionservice.model.CurrencyCode;
-import com.example.transactionservice.model.UserType;
+import com.example.transactionservice.model.enums.CurrencyCode;
+import com.example.transactionservice.model.enums.UserType;
 import lombok.Builder;
 import lombok.Data;
 
