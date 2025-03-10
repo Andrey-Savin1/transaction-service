@@ -16,33 +16,31 @@ import java.util.UUID;
 @Table(name = "wallet_types")
 public class WalletType {
     @Id
-    @ColumnDefault("uuid_generate_v4()")
-    @Column(name = "uid", nullable = false)
-    private UUID id = UUID.randomUUID();
+    @Column(name = "uid")
+    private String id = String.valueOf(UUID.randomUUID());
 
-    @ColumnDefault("now()")
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
 
-    @Column(name = "name", nullable = false, length = 32)
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "currency_code", nullable = false, length = 3)
+    @Column(name = "currency_code")
     @Enumerated(EnumType.STRING)
     private CurrencyCode currencyCode;
 
-    @Column(name = "status", nullable = false, length = 18)
+    @Column(name = "status")
     private String status;
 
     @Column(name = "archived_at")
     private LocalDateTime archivedAt;
 
-    @Column(name = "user_type", length = 15)
+    @Column(name = "user_type")
     @Enumerated(EnumType.STRING)
-    private UserType userType ;
+    private UserType userType;
 
     @Column(name = "creator")
     private String creator;

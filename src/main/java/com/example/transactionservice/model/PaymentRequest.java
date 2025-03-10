@@ -17,32 +17,32 @@ import java.util.UUID;
 public class PaymentRequest {
     @Id
     @ColumnDefault("uuid_generate_v4()")
-    @Column(name = "uid", nullable = false)
+    @Column(name = "uid")
     private UUID id = UUID.randomUUID();
 
     @ColumnDefault("now()")
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
 
-    @Column(name = "user_uid", nullable = false)
+    @Column(name = "user_uid")
     private UUID userUid;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "wallet_uid", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "wallet_uid")
     private Wallet wallet;
 
     @ColumnDefault("0.0")
-    @Column(name = "amount", nullable = false)
+    @Column(name = "amount")
     private BigDecimal amount = BigDecimal.ZERO;
 
-    @Column(name = "status", length = Integer.MAX_VALUE)
+    @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private PaymentStatus status;
 
-    @Column(name = "comment", length = 256)
+    @Column(name = "comment")
     private String comment;
 
     @Column(name = "payment_method_id")

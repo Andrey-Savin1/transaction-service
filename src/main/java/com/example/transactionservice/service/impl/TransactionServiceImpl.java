@@ -43,7 +43,6 @@ public class TransactionServiceImpl implements TransactionService {
         wallet.setBalance(wallet.getBalance().add(amount));
         walletRepository.save(wallet);
 
-
         Transaction transaction = new Transaction();
         transaction.setUserUid(paymentRequest.getUserUid());
         transaction.setWalletUid(wallet);

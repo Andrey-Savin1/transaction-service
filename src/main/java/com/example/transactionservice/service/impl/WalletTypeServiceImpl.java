@@ -6,6 +6,7 @@ import com.example.transactionservice.repository.WalletTypeRepository;
 import com.example.transactionservice.service.WalletTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class WalletTypeServiceImpl implements WalletTypeService {
@@ -14,6 +15,7 @@ public class WalletTypeServiceImpl implements WalletTypeService {
     WalletTypeRepository walletTypeRepository;
 
     @Override
+    @Transactional
     public WalletType getNeedWalletType(WalletTypeDto dto) {
 
         WalletType walletType = new WalletType();
@@ -23,7 +25,7 @@ public class WalletTypeServiceImpl implements WalletTypeService {
         walletType.setUserType(dto.getUserType());
         walletType.setCreator("USER");
 
-        return walletTypeRepository.save(walletType);
+        return walletType;
     }
 
 }

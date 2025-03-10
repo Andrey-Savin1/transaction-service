@@ -14,19 +14,17 @@ import java.util.UUID;
 @Table(name = "top_up_requests")
 public class TopUpRequest {
     @Id
-    @ColumnDefault("uuid_generate_v4()")
-    @Column(name = "uid", nullable = false)
+    @Column(name = "uid")
     private UUID id = UUID.randomUUID();
 
-    @ColumnDefault("now()")
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @Column(name = "provider", nullable = false, length = Integer.MAX_VALUE)
+    @Column(name = "provider")
     private String provider;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "payment_request_uid", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "payment_request_uid")
     private PaymentRequest paymentRequestUid;
 
 }

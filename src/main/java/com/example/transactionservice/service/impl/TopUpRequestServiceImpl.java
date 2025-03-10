@@ -1,15 +1,18 @@
 package com.example.transactionservice.service.impl;
 
+import com.example.transactionservice.dto.TopUpRequestDto;
 import com.example.transactionservice.model.PaymentRequest;
 import com.example.transactionservice.model.TopUpRequest;
+import com.example.transactionservice.model.Transaction;
+import com.example.transactionservice.model.enums.FilterType;
+import com.example.transactionservice.model.enums.TransactionState;
 import com.example.transactionservice.repository.TopUpRequestRepository;
+import com.example.transactionservice.repository.TransactionRepository;
 import com.example.transactionservice.service.PaymentRequestService;
 import com.example.transactionservice.service.TopUpRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
-import java.util.UUID;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class TopUpRequestServiceImpl implements TopUpRequestService {
@@ -18,14 +21,33 @@ public class TopUpRequestServiceImpl implements TopUpRequestService {
     private PaymentRequestService paymentRequestService;
     @Autowired
     private TopUpRequestRepository topUpRequestRepository;
+    @Autowired
+    private TransactionRepository transactionRepository;
 
+    @Transactional
+    public TopUpRequest createTopUpRequest(TopUpRequestDto dto) {
+        PaymentRequest paymentRequest = paymentRequestService.getPaymentRequest(dto);
 
-    public TopUpRequest createTopUpRequest(UUID userUid, UUID walletUid, BigDecimal amount, String comment, String provider) {
-        PaymentRequest paymentRequest = paymentRequestService.createPaymentRequest(userUid, walletUid, amount, comment);
+        if (paymentRequest == null) {
+            throw new RuntimeException("PaymentRequest is null");
+        }
+
         TopUpRequest topUpRequest = new TopUpRequest();
-        topUpRequest.setProvider(provider);
+        topUpRequest.setProvider(dto.getProvider());
         topUpRequest.setPaymentRequestUid(paymentRequest);
+
+        Transaction transaction = new Transaction();
+        transaction.setUserUid(paymentRequest.getUserUid());
+        transaction.setWalletUid(paymentRequest.getWallet());
+        transaction.setWalletName(paymentRequest.getWallet().getName());
+        transaction.setAmount(dto.getAmount());
+        transaction.setType(FilterType.TOPUP);
+        transaction.setState(TransactionState.PROCESSING);
+        transaction.setPaymentRequestUid(paymentRequest);
+        transactionRepository.save(transaction);
+
         return topUpRequestRepository.save(topUpRequest);
+
     }
 
 }

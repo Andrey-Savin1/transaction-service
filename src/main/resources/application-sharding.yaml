@@ -1,0 +1,58 @@
+spring:
+  config:
+    activate:
+      on-profile: sharding
+  flyway:
+    enabled: false # Отключаем Flyway для этого профиля
+  application:
+    name: transaction-service
+  datasource:
+    driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
+    url: jdbc:shardingsphere:classpath:sharding.yaml
+#  jpa:
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+server:
+  port: 9999
+
+#sharding sphere:
+#  datasource:
+#    names: ds_0,ds_1 # Список датасорсов
+#    ds_0: # Настройки первого датасорса
+#      dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+#      driverClassName: org.postgresql.Driver
+#      jdbcUrl: jdbc:postgresql://localhost:5432/transactdb
+#      username: postgres
+#      password: 1234
+#    ds_1: # Настройки второго датасорса
+#      dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+#      driverClassName: org.postgresql.Driver
+#      jdbcUrl: jdbc:postgresql://localhost:5432/transactdb_1
+#      username: postgres
+#      password: 1234
+#
+#  rules:
+#    sharding:
+#      tables:
+#        wallets:
+#          actualDataNodes: ds_${0..1}.wallets
+#          table-strategy:
+#            standard:
+#              sharding-column: user_uid
+#              sharding-algorithm-name: user-sharding
+#        transactions:
+#          actual-data-nodes: ds_${0..1}.transactions
+#          table-strategy:
+#            standard:
+#              sharding-column: user_uid
+#              sharding-algorithm-name: user-sharding
+#      sharding-algorithms:
+#        user-sharding:
+#          type: MOD
+#          props:
+#            sharding-count: 2
+#
+#  props:
+#    sql-show: true # Показывать SQL-запросы в логах

@@ -1,0 +1,189 @@
+dataSources:
+  ds_0:
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/transactdb
+    username: postgres
+    password: 1234
+
+  ds_1:
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/transactdb_1
+    username: postgres
+    password: 1234
+
+
+#rules:
+#  - !SHARDING
+#    defaultDatabaseStrategy:
+#      standard:
+#        shardingColumn: uid
+#        shardingAlgorithmName: user_sharding_algorithm
+#
+#    defaultTableStrategy:
+#      standard:
+#        shardingColumn: uid
+#        shardingAlgorithmName: user_sharding_algorithm
+
+
+
+#    tables:
+#
+#      wallets:
+#        actualDataNodes: ds${0..1}.wallets
+#        databaseStrategy:
+#          standard:
+#            shardingColumn: user_uid
+#            shardingAlgorithmName: user_sharding_algorithm
+#
+#      wallet_types:
+#        actualDataNodes: ds${0..1}.wallet_types
+#        databaseStrategy:
+#          standard:
+#            shardingColumn: uid
+#            shardingAlgorithmName: user_sharding_algorithm
+#
+#      payment_requests:
+#        actualDataNodes: ds${0..1}.payment_requests
+#        databaseStrategy:
+#          standard:
+#            shardingColumn: user_uid
+#            shardingAlgorithmName: user_sharding_algorithm
+#
+#      transactions:
+#        actualDataNodes: ds${0..1}.transactions
+#        databaseStrategy:
+#          standard:
+#            shardingColumn: user_uid
+#            shardingAlgorithmName: user_sharding_algorithm
+#
+#
+#    shardingAlgorithms:
+#      user_sharding_algorithm:
+#        type:  CLASS_BASED
+#        props:
+#          strategy: STANDARD
+#          algorithmClassName: com.example.transactionservice.Util
+
+
+
+
+
+
+rules:
+  - !SHARDING
+    tables:
+      wallets:
+        actualDataNodes: ds_${0..1}.wallets${0..1}
+        databaseStrategy:
+          standard:
+            shardingColumn: user_uid
+            shardingAlgorithmName: user-sharding
+
+#      payment_requests:
+#        actualDataNodes: ds_${0..1}.payment_requests
+#        databaseStrategy:
+#          standard:
+#            shardingColumn: wallet_uid
+#            shardingAlgorithmName: user-sharding
+
+      transactions:
+        actualDataNodes: ds_${0..1}.transactions${0..1}
+        databaseStrategy:
+          standard:
+            shardingColumn: user_uid
+            shardingAlgorithmName: user-sharding
+
+#      top_up_requests:
+#        actualDataNodes: ds_${0..1}.top_up_requests
+#        databaseStrategy:
+#          standard:
+#            shardingColumn: payment_request_uid
+#            shardingAlgorithmName: user-sharding
+
+#      withdrawal_requests:
+#        actualDataNodes: ds_${0..1}.withdrawal_requests
+#        databaseStrategy:
+#          standard:
+#            shardingColumn: payment_request_uid
+#            shardingAlgorithmName: user-sharding
+
+#      transfer_requests:
+#        actualDataNodes: ds_${0..1}.transfer_requests
+#        databaseStrategy:
+#          standard:
+#            shardingColumn: payment_request_uid_from
+#            shardingAlgorithmName: user-sharding
+
+      wallet_types:
+        actualDataNodes: ds_${0..1}.wallet_types${0..1}
+        databaseStrategy:
+          standard:
+            shardingColumn: user_uid
+            shardingAlgorithmName: user-sharding
+
+#    bindingTables:
+#      - wallets, wallet_types
+#    defaultDatabaseStrategy:
+#      standard:
+#        shardingColumn: uid
+#        shardingAlgorithmName: user-sharding
+
+    shardingAlgorithms:
+      user-sharding:
+        type: HASH_MOD
+        props:
+          sharding-count: 2
+#  - !BROADCAST
+#      tables:
+#         - wallet_types
+
+#    shardingAlgorithms:
+#      user-sharding:
+#        type:  CLASS_BASED
+#        props:
+#          strategy: STANDARD
+#          algorithmClassName: com.example.transactionservice.Util
+
+
+
+
+
+
+#rules:
+#  - !SHARDING
+#    tables:
+#      wallets:
+#        actualDataNodes: ds_${0..1}.wallets
+#        tableStrategy:
+#          standard:
+#            shardingColumn: user_uid
+#            shardingAlgorithmName: user-sharding
+#      transactions:
+#        actualDataNodes: ds_${0..1}.transactions
+#        tableStrategy:
+#          standard:
+#            shardingColumn: user_uid
+#            shardingAlgorithmName: user-sharding
+#      wallet_types:
+#        actualDataNodes: ds_${0..1}.wallet_types
+#        tableStrategy:
+#          standard:
+#            shardingColumn: uid
+#            shardingAlgorithmName: user-sharding
+#    defaultDatabaseStrategy:
+#      standard:
+#        shardingColumn: user_uid
+#        shardingAlgorithmName: user-sharding
+#    shardingAlgorithms:
+#      user-sharding:
+#        type: CLASS_BASED
+#        props:
+#          sharding-count: 2
+#          strategy: STANDARD
+#          algorithmClassName: com.example.transactionservice.Util
+#
+
+props:
+  sql-show: true

@@ -1,6 +1,6 @@
 create table wallet_types
 (
-    uid           uuid      default uuid_generate_v4() primary key,
+    uid           bigint    primary key,
     created_at    timestamp default now() not null,
     modified_at   timestamp,
     name          varchar(32)             not null,
