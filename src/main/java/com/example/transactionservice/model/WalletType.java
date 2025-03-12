@@ -15,9 +15,11 @@ import java.util.UUID;
 @Entity
 @Table(name = "wallet_types")
 public class WalletType {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "uid")
-    private String id = String.valueOf(UUID.randomUUID());
+    private Long id;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();

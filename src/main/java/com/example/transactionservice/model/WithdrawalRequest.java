@@ -13,10 +13,11 @@ import java.util.UUID;
 @Entity
 @Table(name = "withdrawal_requests")
 public class WithdrawalRequest {
+
     @Id
-    @ColumnDefault("uuid_generate_v4()")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "uid", nullable = false)
-    private UUID id = UUID.randomUUID();
+    private Long id;
 
     @ColumnDefault("now()")
     @Column(name = "created_at", nullable = false)

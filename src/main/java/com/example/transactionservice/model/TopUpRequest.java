@@ -13,9 +13,11 @@ import java.util.UUID;
 @Entity
 @Table(name = "top_up_requests")
 public class TopUpRequest {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "uid")
-    private UUID id = UUID.randomUUID();
+    private Long id;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();

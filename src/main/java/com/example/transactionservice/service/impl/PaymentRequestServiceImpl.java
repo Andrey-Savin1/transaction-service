@@ -27,7 +27,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
 
     @Transactional
-    public PaymentRequest createPaymentRequest(UUID userUid, BigDecimal amount, String comment, String currency) {
+    public PaymentRequest createPaymentRequest(Long userUid, BigDecimal amount, String comment, String currency) {
 
         var wallet = walletRepository.findByUserUid(userUid);
 

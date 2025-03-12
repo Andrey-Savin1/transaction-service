@@ -18,10 +18,11 @@ import java.util.UUID;
 @Entity
 @Table(name = "transactions")
 public class Transaction {
+
     @Id
-    @ColumnDefault("uuid_generate_v4()")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "uid", nullable = false)
-    private UUID id = UUID.randomUUID();
+    private Long id;
 
     @ColumnDefault("now()")
     @Column(name = "created_at", nullable = false)
@@ -31,7 +32,7 @@ public class Transaction {
     private LocalDateTime modifiedAt;
 
     @Column(name = "user_uid", nullable = false)
-    private UUID userUid;
+    private Long userUid;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "wallet_uid", nullable = false)

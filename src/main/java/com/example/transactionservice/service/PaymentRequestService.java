@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface PaymentRequestService {
 
-    PaymentRequest createPaymentRequest(UUID userUid, BigDecimal amount, String comment, String currency);
+    PaymentRequest createPaymentRequest(Long userUid, BigDecimal amount, String comment, String currency);
 
     <T extends RequestDto> PaymentRequest getPaymentRequest(T dto);
 

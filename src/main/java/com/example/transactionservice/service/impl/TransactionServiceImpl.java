@@ -29,7 +29,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Autowired
     private WalletRepository walletRepository;
 
-    public void processTopUpTransaction(UUID paymentRequestUid) {
+    public void processTopUpTransaction(Long paymentRequestUid) {
         PaymentRequest paymentRequest = paymentRequestRepository.findById(paymentRequestUid)
                 .orElseThrow(() -> new RuntimeException("Payment request not found"));
 

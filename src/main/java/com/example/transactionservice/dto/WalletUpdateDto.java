@@ -7,7 +7,7 @@ import java.util.UUID;
 @Data
 public class WalletUpdateDto {
 
-    private UUID id;
+    private Long id;
    // private WalletTypeDto walletTypeDto;
     private String name;
    // private UUID userUid;

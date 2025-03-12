@@ -33,16 +33,15 @@ public class WalletServiceImpl implements WalletService {
 //            return findWallet.get();
 //        } else {
         var walletType = walletTypeService.getNeedWalletType(dto.getWalletTypeDto());
-
+        System.out.println("walletType: " + walletType.getId());
         Wallet newWallet = new Wallet();
         newWallet.setName(dto.getName());
         newWallet.setWalletType(walletType);
         newWallet.setStatus(WalletStatus.ACTIVE);
         newWallet.setBalance(BigDecimal.ZERO);
-
+        System.out.println("newWallet:  " + newWallet);
+       // walletTypeRepository.save(walletType);
         walletRepository.save(newWallet);
-        walletTypeRepository.save(walletType);
-
         return newWallet;
 
 //        }

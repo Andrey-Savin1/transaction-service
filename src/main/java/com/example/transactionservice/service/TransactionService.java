@@ -4,6 +4,6 @@ import java.util.UUID;
 
 public interface TransactionService {
 
-   void processTopUpTransaction(UUID paymentRequestUid);
+   void processTopUpTransaction(Long paymentRequestUid);
 
 }

@@ -9,6 +9,7 @@ import org.hibernate.annotations.ColumnDefault;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Random;
 import java.util.UUID;
 
 @Data
@@ -16,10 +17,11 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table(name = "wallets")
 public class Wallet {
+
     @Id
-    @ColumnDefault("uuid_generate_v4()")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "uid")
-    private String id = String.valueOf(UUID.randomUUID());
+    private Long id ;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -35,7 +37,7 @@ public class Wallet {
     private WalletType walletType;
 
     @Column(name = "user_uid")
-    private UUID userUid = UUID.randomUUID();
+    private Long userUid;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)

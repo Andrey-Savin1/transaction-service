@@ -12,8 +12,8 @@ import java.util.UUID;
 @NoArgsConstructor
 public class RequestDto {
 
-    private UUID userUid;
-    private UUID walletUid;
+    private Long userUid;
+    private Long walletUid;
     private BigDecimal amount;
     private String comment;
     private String currency;

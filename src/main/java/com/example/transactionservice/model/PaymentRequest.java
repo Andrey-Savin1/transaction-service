@@ -16,9 +16,9 @@ import java.util.UUID;
 @Table(name = "payment_requests")
 public class PaymentRequest {
     @Id
-    @ColumnDefault("uuid_generate_v4()")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "uid")
-    private UUID id = UUID.randomUUID();
+    private Long id;
 
     @ColumnDefault("now()")
     @Column(name = "created_at")
@@ -28,7 +28,7 @@ public class PaymentRequest {
     private LocalDateTime modifiedAt;
 
     @Column(name = "user_uid")
-    private UUID userUid;
+    private Long userUid;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "wallet_uid")

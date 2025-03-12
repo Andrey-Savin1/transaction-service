@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Random;
+
 @Service
 public class WalletTypeServiceImpl implements WalletTypeService {
 
@@ -19,6 +21,7 @@ public class WalletTypeServiceImpl implements WalletTypeService {
     public WalletType getNeedWalletType(WalletTypeDto dto) {
 
         WalletType walletType = new WalletType();
+        walletType.setId(Math.abs(new Random().nextLong()));
         walletType.setName(dto.getName());
         walletType.setCurrencyCode(dto.getCurrencyCode());
         walletType.setStatus("ACTIVE");

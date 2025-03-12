@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.UUID;
 
-public interface TopUpRequestRepository extends CrudRepository<TopUpRequest, UUID> {
+public interface TopUpRequestRepository extends CrudRepository<TopUpRequest, Long> {
 }
