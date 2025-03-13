@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +36,7 @@ public class WalletServiceImpl implements WalletService {
         var walletType = walletTypeService.getNeedWalletType(dto.getWalletTypeDto());
         System.out.println("walletType: " + walletType.getId());
         Wallet newWallet = new Wallet();
+        newWallet.setUserUid(Math.abs(new Random().nextLong()));
         newWallet.setName(dto.getName());
         newWallet.setWalletType(walletType);
         newWallet.setStatus(WalletStatus.ACTIVE);

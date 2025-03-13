@@ -8,10 +8,11 @@ import com.example.transactionservice.model.WithdrawalRequest;
 import com.example.transactionservice.service.TopUpRequestService;
 import com.example.transactionservice.service.WithdrawalRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/transactions")
 public class PaymentController {
 
     @Autowired
@@ -20,6 +21,7 @@ public class PaymentController {
     private WithdrawalRequestService withdrawalRequestService;
 
     @PostMapping("/top-up")
+    @Transactional
     public TopUpRequest createTopUp(@RequestBody TopUpRequestDto dto) {
         return topUpService.createTopUpRequest(dto);
     }

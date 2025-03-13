@@ -1,0 +1,10 @@
+spring:
+  profiles:
+   #active: flyway-ds0
+   #active: flyway-ds1
+    active: sharding
+  application:
+    name: transaction-service
+
+server:
+  port: 9999

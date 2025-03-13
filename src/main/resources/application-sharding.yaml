@@ -1,11 +1,6 @@
 spring:
-  config:
-    activate:
-      on-profile: sharding
   flyway:
     enabled: false # Отключаем Flyway для этого профиля
-  application:
-    name: transaction-service
   datasource:
     driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
     url: jdbc:shardingsphere:classpath:sharding.yaml
@@ -14,8 +9,6 @@ spring:
 #      hibernate:
 #        dialect: org.hibernate.dialect.PostgreSQLDialect
 
-server:
-  port: 9999
 
 #sharding sphere:
 #  datasource:

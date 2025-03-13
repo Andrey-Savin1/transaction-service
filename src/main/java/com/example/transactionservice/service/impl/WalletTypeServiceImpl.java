@@ -20,15 +20,7 @@ public class WalletTypeServiceImpl implements WalletTypeService {
     @Transactional
     public WalletType getNeedWalletType(WalletTypeDto dto) {
 
-        WalletType walletType = new WalletType();
-        walletType.setId(Math.abs(new Random().nextLong()));
-        walletType.setName(dto.getName());
-        walletType.setCurrencyCode(dto.getCurrencyCode());
-        walletType.setStatus("ACTIVE");
-        walletType.setUserType(dto.getUserType());
-        walletType.setCreator("USER");
-
-        return walletType;
+        return walletTypeRepository.findByCurrencyCode(dto.getCurrencyCode());
     }
 
 }

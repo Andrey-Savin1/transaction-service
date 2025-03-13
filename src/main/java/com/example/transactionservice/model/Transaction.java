@@ -34,28 +34,28 @@ public class Transaction {
     @Column(name = "user_uid", nullable = false)
     private Long userUid;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "wallet_uid", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "wallet_uid")
     private Wallet walletUid;
 
-    @Column(name = "wallet_name", nullable = false, length = 32)
+    @Column(name = "wallet_name")
     private String walletName;
 
     @ColumnDefault("0.0")
-    @Column(name = "amount", nullable = false)
+    @Column(name = "amount")
     private BigDecimal amount;
 
-    @Column(name = "type", nullable = false, length = 32)
+    @Column(name = "type")
     @Enumerated(EnumType.STRING)
     private FilterType type;
 
-    @Column(name = "state", nullable = false, length = 32)
+    @Column(name = "state")
     @Enumerated(EnumType.STRING)
     private TransactionState state;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "payment_request_uid", nullable = false)
+    @JoinColumn(name = "payment_request_uid")
     private PaymentRequest paymentRequestUid;
 
 }

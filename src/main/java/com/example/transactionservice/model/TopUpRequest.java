@@ -3,10 +3,8 @@ package com.example.transactionservice.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -25,7 +23,7 @@ public class TopUpRequest {
     @Column(name = "provider")
     private String provider;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "payment_request_uid")
     private PaymentRequest paymentRequestUid;
 

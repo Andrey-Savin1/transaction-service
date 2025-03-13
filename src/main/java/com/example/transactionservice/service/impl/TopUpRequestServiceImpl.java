@@ -32,9 +32,13 @@ public class TopUpRequestServiceImpl implements TopUpRequestService {
             throw new RuntimeException("PaymentRequest is null");
         }
 
+        System.out.println("paymentRequest: " + paymentRequest.getUserUid());
+
         TopUpRequest topUpRequest = new TopUpRequest();
         topUpRequest.setProvider(dto.getProvider());
         topUpRequest.setPaymentRequestUid(paymentRequest);
+        //topUpRequestRepository.save(topUpRequest);
+
 
         Transaction transaction = new Transaction();
         transaction.setUserUid(paymentRequest.getUserUid());

@@ -3,14 +3,14 @@ dataSources:
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
     driverClassName: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/transactdb
-    username: postgres
+    username: admin
     password: 1234
 
   ds_1:
     dataSourceClassName: com.zaxxer.hikari.HikariDataSource
     driverClassName: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/transactdb_1
-    username: postgres
+    username: admin
     password: 1234
 
 
@@ -85,12 +85,17 @@ rules:
           column: user_uid # Столбец для генерации ключей
           keyGeneratorName: snowflake # Имя генератора ключей
 
-#      payment_requests:
-#        actualDataNodes: ds_${0..1}.payment_requests
-#        databaseStrategy:
-#          standard:
-#            shardingColumn: wallet_uid
-#            shardingAlgorithmName: user-sharding
+      payment_requests:
+        actualDataNodes: ds_${0..1}.payment_requests
+        databaseStrategy:
+          standard:
+            shardingColumn: user_uid
+            shardingAlgorithmName: user-sharding
+        tableStrategy:
+          none:
+#        keyGenerateStrategy:
+#          column: user_uid
+#          keyGeneratorName: snowflake # Имя генератора ключей
 
       transactions:
         actualDataNodes: ds_${0..1}.transactions
@@ -100,16 +105,16 @@ rules:
             shardingAlgorithmName: user-sharding
         tableStrategy: # Стратегия шардирования таблиц
           none: # Не шардировать таблицы
-        keyGenerateStrategy: # Стратегия генерации ключей
-          column: uid # Столбец для генерации ключей
-          keyGeneratorName: snowflake # Имя генератора ключей
+#        keyGenerateStrategy: # Стратегия генерации ключей
+#          column: user_uid # Столбец для генерации ключей
+#          keyGeneratorName: snowflake # Имя генератора ключей
 
-#      top_up_requests:
-#        actualDataNodes: ds_${0..1}.top_up_requests
-#        databaseStrategy:
-#          standard:
-#            shardingColumn: payment_request_uid
-#            shardingAlgorithmName: user-sharding
+      top_up_requests:
+        actualDataNodes: ds_${0..1}.top_up_requests
+        databaseStrategy:
+          standard:
+            shardingColumn: payment_request_uid
+            shardingAlgorithmName: payment-request-sharding
 
 #      withdrawal_requests:
 #        actualDataNodes: ds_${0..1}.withdrawal_requests
@@ -144,6 +149,10 @@ rules:
         type: INLINE
         props:
           algorithm-expression: ds_${user_uid % 2}
+      payment-request-sharding:
+        type: INLINE
+        props:
+          algorithm-expression: ds_${payment_request_uid % 2}
     keyGenerators:
       snowflake:
         type: SNOWFLAKE

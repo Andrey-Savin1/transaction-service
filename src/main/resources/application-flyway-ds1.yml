@@ -1,7 +1,7 @@
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/transactdb_1
-    username: postgres
+    username: admin
     password: 1234
     driver-class-name: org.postgresql.Driver
   flyway:
