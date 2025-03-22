@@ -2,7 +2,7 @@ package com.example.transactionservice.model.enums;
 
 public enum FilterType {
 
-    TOPUP,
+    TOP_UP,
     WITHDRAWAL,
     TRANSFER
 

@@ -5,6 +5,8 @@ import com.example.transactionservice.dto.WalletUpdateDto;
 import com.example.transactionservice.model.Wallet;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 public interface WalletService {
 
     @Transactional
@@ -12,4 +14,8 @@ public interface WalletService {
 
     Wallet updateWallet(WalletUpdateDto dto);
 
+    List<Wallet> findAllWalletsByUserId(Long id);
+
+
+    List<Wallet> findAllWalletsByUserIdAndWalletTypeCurrencyCode(Long id, String currencyCode);
 }

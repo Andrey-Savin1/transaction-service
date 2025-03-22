@@ -8,13 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Random;
-
 @Service
 public class WalletTypeServiceImpl implements WalletTypeService {
 
     @Autowired
-    WalletTypeRepository walletTypeRepository;
+    private WalletTypeRepository walletTypeRepository;
 
     @Override
     @Transactional

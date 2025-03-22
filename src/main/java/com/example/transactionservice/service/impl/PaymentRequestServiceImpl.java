@@ -7,29 +7,23 @@ import com.example.transactionservice.repository.PaymentRequestRepository;
 import com.example.transactionservice.repository.WalletRepository;
 import com.example.transactionservice.repository.WalletTypeRepository;
 import com.example.transactionservice.service.PaymentRequestService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
 @Service
+@Slf4j
+@RequiredArgsConstructor
 public class PaymentRequestServiceImpl implements PaymentRequestService {
 
-    private static final Logger log = LoggerFactory.getLogger(PaymentRequestServiceImpl.class);
-    @Autowired
-    private PaymentRequestRepository paymentRequestRepository;
-    @Autowired
-    private WalletRepository walletRepository;
-    @Autowired
-    private WalletTypeRepository walletTypeRepository;
-
+    private final WalletRepository walletRepository;
 
 
     @Transactional
-    public  <T extends RequestDto> PaymentRequest getPaymentRequest(T dto) {
+    public <T extends RequestDto> PaymentRequest getPaymentRequest(T dto) {
         return createPaymentRequest(dto.getUserUid(),
                 dto.getAmount(), dto.getComment(), dto.getCurrency());
     }
@@ -39,11 +33,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
         var wallet = walletRepository.findByUserUid(userUid);
 
+        if (wallet.isPresent()) {
+            if (wallet.get().getWalletType().getCurrencyCode().name().equals(currency.toUpperCase())) {
 
-        if (wallet.isPresent()){
-            if (wallet.get().getWalletType().getCurrencyCode().name().equals(currency.toUpperCase())){
-
-                System.out.println("wallet: " + wallet);
+                System.out.println("wallet: " + wallet.get().getId());
 
                 PaymentRequest paymentRequest = new PaymentRequest();
                 paymentRequest.setUserUid(userUid);
@@ -51,14 +44,11 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 paymentRequest.setAmount(amount);
                 paymentRequest.setStatus(PaymentStatus.PROCESSING);
                 paymentRequest.setComment(comment);
-                PaymentRequest save = paymentRequestRepository.save(paymentRequest);
-                log.info("save paymentRequest: {} ", save);
-                return save;
+
+                return paymentRequest;
             }
         }
-
         return null;
-
     }
 
 }

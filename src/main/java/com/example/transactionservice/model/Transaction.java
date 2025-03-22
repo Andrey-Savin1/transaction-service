@@ -11,7 +11,6 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -24,14 +23,13 @@ public class Transaction {
     @Column(name = "uid", nullable = false)
     private Long id;
 
-    @ColumnDefault("now()")
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
 
-    @Column(name = "user_uid", nullable = false)
+    @Column(name = "user_uid")
     private Long userUid;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -53,7 +51,7 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     private TransactionState state;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "payment_request_uid")
     private PaymentRequest paymentRequestUid;

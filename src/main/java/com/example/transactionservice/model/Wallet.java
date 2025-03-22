@@ -2,6 +2,8 @@ package com.example.transactionservice.model;
 
 import com.example.transactionservice.model.enums.WalletStatus;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
@@ -9,11 +11,11 @@ import org.hibernate.annotations.ColumnDefault;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Random;
-import java.util.UUID;
 
 @Data
 @Entity
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "wallets")
 public class Wallet {
@@ -32,7 +34,7 @@ public class Wallet {
     @Column(name = "name")
     private String name;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne()
     @JoinColumn(name = "wallet_type_uid")
     private WalletType walletType;
 

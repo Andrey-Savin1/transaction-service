@@ -4,7 +4,6 @@ import com.example.transactionservice.dto.RequestDto;
 import com.example.transactionservice.model.PaymentRequest;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 public interface PaymentRequestService {
 

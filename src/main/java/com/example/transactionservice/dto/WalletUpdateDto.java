@@ -2,8 +2,6 @@ package com.example.transactionservice.dto;
 
 import lombok.Data;
 
-import java.util.UUID;
-
 @Data
 public class WalletUpdateDto {
 

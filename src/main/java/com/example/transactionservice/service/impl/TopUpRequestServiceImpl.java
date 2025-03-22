@@ -3,55 +3,53 @@ package com.example.transactionservice.service.impl;
 import com.example.transactionservice.dto.TopUpRequestDto;
 import com.example.transactionservice.model.PaymentRequest;
 import com.example.transactionservice.model.TopUpRequest;
-import com.example.transactionservice.model.Transaction;
-import com.example.transactionservice.model.enums.FilterType;
-import com.example.transactionservice.model.enums.TransactionState;
 import com.example.transactionservice.repository.TopUpRequestRepository;
-import com.example.transactionservice.repository.TransactionRepository;
 import com.example.transactionservice.service.PaymentRequestService;
 import com.example.transactionservice.service.TopUpRequestService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.transactionservice.service.TransactionService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.shardingsphere.infra.hint.HintManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import static com.example.transactionservice.service.impl.TransactionServiceImpl.determineShardValue;
+
+
 @Service
+@Slf4j
+@RequiredArgsConstructor
 public class TopUpRequestServiceImpl implements TopUpRequestService {
 
-    @Autowired
-    private PaymentRequestService paymentRequestService;
-    @Autowired
-    private TopUpRequestRepository topUpRequestRepository;
-    @Autowired
-    private TransactionRepository transactionRepository;
+    private final PaymentRequestService paymentRequestService;
+    private final TopUpRequestRepository topUpRequestRepository;
+    private final TransactionService transactionService;
+
 
     @Transactional
     public TopUpRequest createTopUpRequest(TopUpRequestDto dto) {
         PaymentRequest paymentRequest = paymentRequestService.getPaymentRequest(dto);
 
-        if (paymentRequest == null) {
-            throw new RuntimeException("PaymentRequest is null");
+        if (paymentRequest == null) { throw new RuntimeException("PaymentRequest is null"); }
+
+        try (HintManager hintManager = HintManager.getInstance()) {
+            Long shardValue = determineShardValue(paymentRequest.getUserUid());
+
+            log.debug("createTopUpRequest shardValue: {}", shardValue);
+            log.debug("paymentRequest: {}", paymentRequest.getUserUid());
+
+            hintManager.addDatabaseShardingValue("transactions", shardValue);
+            hintManager.addDatabaseShardingValue("top_up_requests", shardValue);
+            hintManager.addDatabaseShardingValue("payment_requests", shardValue);
+
+            transactionService.createTopUpTransaction(dto, paymentRequest);
+
+            TopUpRequest topUpRequest = new TopUpRequest();
+            topUpRequest.setProvider(dto.getProvider());
+            topUpRequest.setPaymentRequestUid(paymentRequest);
+
+            return topUpRequestRepository.save(topUpRequest);
+
         }
-
-        System.out.println("paymentRequest: " + paymentRequest.getUserUid());
-
-        TopUpRequest topUpRequest = new TopUpRequest();
-        topUpRequest.setProvider(dto.getProvider());
-        topUpRequest.setPaymentRequestUid(paymentRequest);
-        //topUpRequestRepository.save(topUpRequest);
-
-
-        Transaction transaction = new Transaction();
-        transaction.setUserUid(paymentRequest.getUserUid());
-        transaction.setWalletUid(paymentRequest.getWallet());
-        transaction.setWalletName(paymentRequest.getWallet().getName());
-        transaction.setAmount(dto.getAmount());
-        transaction.setType(FilterType.TOPUP);
-        transaction.setState(TransactionState.PROCESSING);
-        transaction.setPaymentRequestUid(paymentRequest);
-        transactionRepository.save(transaction);
-
-        return topUpRequestRepository.save(topUpRequest);
-
     }
-
 }
